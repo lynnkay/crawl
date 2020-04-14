@@ -658,6 +658,7 @@ static const char* _wand_type_name(int wandtype)
     switch (wandtype)
     {
     case WAND_FLAME:           return "flame";
+    case WAND_HEAL_WOUNDS:     return "heal wounds";
     case WAND_PARALYSIS:       return "paralysis";
     case WAND_DIGGING:         return "digging";
     case WAND_ICEBLAST:        return "iceblast";
@@ -3110,6 +3111,8 @@ bool is_emergency_item(const item_def &item)
         {
         case WAND_TELEPORTATION:
             return you.species != SP_FORMICID;
+        case WAND_HEAL_WOUNDS:
+            return !you.can_device_heal();
         default:
             return false;
         }
@@ -3135,7 +3138,7 @@ bool is_emergency_item(const item_def &item)
             return !have_passive(passive_t::no_haste)
                 && you.species != SP_FORMICID;
         case POT_HEAL_WOUNDS:
-            return you.can_potion_heal();
+            return you.can_device_heal();
         case POT_CURING:
         case POT_RESISTANCE:
         case POT_MAGIC:
@@ -3498,6 +3501,10 @@ bool is_useless_item(const item_def &item, bool temp)
         if (item.sub_type == WAND_TELEPORTATION)
             return you.species == SP_FORMICID;
 
+        // heal wand is useless for VS if they can't get allies
+        if (item.sub_type == WAND_HEAL_WOUNDS)
+            return !you.can_device_heal();
+
         return false;
 
     case OBJ_POTIONS:
@@ -3560,7 +3567,7 @@ bool is_useless_item(const item_def &item, bool temp)
             // If you're poison resistant, poison is only useless.
             return !is_bad_item(item, temp);
         case POT_HEAL_WOUNDS:
-            return !you.can_potion_heal();
+            return !you.can_device_heal();
         case POT_INVISIBILITY:
             return _invisibility_is_useless(temp);
         case POT_WATER:
@@ -3757,6 +3764,20 @@ bool is_useless_item(const item_def &item, bool temp)
 
     default:
         return false;
+        case OBJ_ORBS:
+            break;
+        case OBJ_GOLD:
+            break;
+        case OBJ_RUNES:
+            break;
+        case NUM_OBJECT_CLASSES:
+            break;
+        case OBJ_UNASSIGNED:
+            break;
+        case OBJ_RANDOM:
+            break;
+        case OBJ_DETECTED:
+            break;
     }
     return false;
 }

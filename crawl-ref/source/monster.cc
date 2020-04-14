@@ -793,6 +793,7 @@ bool monster::likes_wand(const item_def &item) const
     switch (item.sub_type)
     {
         case WAND_TELEPORTATION:
+        case WAND_HEAL_WOUNDS:
             return true; //good wand
 
         default:

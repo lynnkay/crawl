@@ -2999,8 +2999,8 @@ static void tag_read_you(reader &th)
     {
         if (you.species == SP_VINE_STALKER)
         {
-            you.mutation[MUT_NO_POTION_HEAL] =
-            you.innate_mutation[MUT_NO_POTION_HEAL] = 3;
+            you.mutation[MUT_NO_DEVICE_HEAL] =
+            you.innate_mutation[MUT_NO_DEVICE_HEAL] = 3;
         }
 
         if (you.species == SP_VINE_STALKER

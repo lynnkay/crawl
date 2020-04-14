@@ -92,7 +92,7 @@ public:
                 *reason = "You can't heal while in death's door.";
             return false;
         }
-        if (!you.can_potion_heal()
+        if (!you.can_device_heal()
             || you.hp == you.hp_max && player_rotted() == 0)
         {
             if (reason)
@@ -107,20 +107,20 @@ public:
         const bool ddoor = you.duration[DUR_DEATHS_DOOR];
         bool unrotted = false;
 
-        if ((you.can_potion_heal() || !is_potion) && !ddoor || player_rotted())
+        if ((you.can_device_heal() || !is_potion) && !ddoor || player_rotted())
         {
             int amount = 5 + random2(7);
-            if (is_potion && !you.can_potion_heal() && player_rotted())
+            if (is_potion && !you.can_device_heal() && player_rotted())
             {
                 // Treat the effectiveness of rot removal as if the player
-                // had two levels of MUT_NO_POTION_HEAL
+                // had two levels of MUT_NO_DEVICE_HEAL
                 unrot_hp(div_rand_round(amount,3));
                 unrotted = true;
             }
             else
             {
                 if (is_potion)
-                    amount = you.scale_potion_healing(amount);
+                    amount = you.scale_device_healing(amount);
                 if (player_rotted())
                     unrotted = true;
                 // Pay for rot right off the top.
@@ -131,7 +131,7 @@ public:
 
         if (ddoor)
             mpr("You feel queasy.");
-        else if (you.can_potion_heal()
+        else if (you.can_device_heal()
                  || !is_potion
                  || you.duration[DUR_POISONING]
                  || you.duration[DUR_CONF]
@@ -166,7 +166,7 @@ public:
 
     bool can_quaff(string *reason = nullptr) const override
     {
-        if (!you.can_potion_heal())
+        if (!you.can_device_heal())
         {
             if (reason)
                 *reason = "That would not heal you.";
@@ -194,7 +194,7 @@ public:
             mpr("You feel queasy.");
             return false;
         }
-        if (!you.can_potion_heal() && is_potion)
+        if (!you.can_device_heal() && is_potion)
         {
             mpr("That seemed strangely inert.");
             return false;
@@ -202,7 +202,7 @@ public:
 
         int amount = 10 + random2avg(28, 3);
         if (is_potion)
-            amount = you.scale_potion_healing(amount);
+            amount = you.scale_device_healing(amount);
         // Pay for rot right off the top.
         amount = unrot_hp(amount);
         inc_hp(amount);

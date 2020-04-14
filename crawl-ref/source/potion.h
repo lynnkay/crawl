@@ -28,7 +28,7 @@ public:
      *
      * @param was_known     Whether the player should be held responsible.
      * @param pow           The 'power' of the effect. Mostly disused.
-     * @param is_potion     Whether to apply the effects of MUT_NO_POTION_HEAL.
+     * @param is_potion     Whether to apply the effects of MUT_NO_DEVICE_HEAL.
      * @return              Whether or not the potion had an effect.
      */
     virtual bool effect(bool was_known = true, int pow = 40,

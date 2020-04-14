@@ -1137,6 +1137,15 @@ static bool _handle_wand(monster& mons)
         // disintegration beams can do large amounts of damage.
         beem.damage.size = beem.damage.size * 2 / 3;
 
+    case WAND_HEAL_WOUNDS:
+        if (mons.hit_points <= mons.max_hit_points / 2)
+        {
+            beem.target = mons.pos();
+            should_fire = mons_should_fire(beem);
+            break;
+        }
+        return false;
+
     case WAND_TELEPORTATION:
         if (mons.hit_points <= mons.max_hit_points / 2 || mons.caught())
         {

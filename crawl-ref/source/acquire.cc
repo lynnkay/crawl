@@ -677,6 +677,15 @@ static int _acquirement_misc_subtype(bool /*divine*/, int & /*quantity*/)
     return choice ? *choice : MISC_CRYSTAL_BALL_OF_ENERGY;
 }
 
+static int _hw_wand_weight()
+{
+    if (you.innate_mutation[MUT_NO_DEVICE_HEAL] != 3)
+        return 25; // quite powerful
+    if (!you.get_mutation_level(MUT_NO_LOVE))
+        return 5; // can be used on allies...? XXX: should be weight 1?
+    return 0; // with no allies, totally useless
+}
+
 static int _tele_wand_weight()
 {
     if ( you.species == SP_FORMICID || crawl_state.game_is_sprint() )
@@ -696,6 +705,7 @@ static int _acquirement_wand_subtype(bool /*divine*/, int & /*quantity*/)
 {
     // basic total: 120
     vector<pair<wand_type, int>> weights = {
+        { WAND_HEAL_WOUNDS,     _hw_wand_weight() },
         { WAND_SCATTERSHOT,     25 },
         { WAND_CLOUDS,          25 },
 		// normally 20
